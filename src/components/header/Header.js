@@ -3,6 +3,8 @@ import './header.scss'
 import {Link} from 'react-router-dom';
 import {ReactComponent as Logo} from '../../assets/crown.svg'
 import { auth } from '../../firebase/firebase'
+import { connect } from 'react-redux';
+import CartIcon from '../cart-icon/cart-icon'
 
 const Header =({currentUser})=>{
     return(
@@ -12,9 +14,17 @@ const Header =({currentUser})=>{
                 <Link className='option' to='/shop'>SHOP</Link>
                 <Link className='option' to='/shop'>CONTACT</Link>  
                     {currentUser ? <div className="option" onClick={()=> auth.signOut()}>SIGN OUT</div> :  <Link className='option' to='/signin'>SIGN IN</Link>                }                
+                    <CartIcon/>
             </div>
 
         </div>
     )
 }
-export default Header
+
+const mapStateToProps = state =>({
+    currentUser: state.user.currentUser
+})
+
+
+
+export default connect(mapStateToProps)(Header)
